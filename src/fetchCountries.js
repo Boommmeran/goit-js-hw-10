@@ -1,8 +1,14 @@
-const BASE_URL = 'https://restcountries.com/v3.1/name/';
+import Notiflix from 'notiflix'
+const API = 'https://restcountries.com/v3.1/name/'
+const filter = '?fields=name,capital,population,flags,languages'
 
-function getCountryByName(name) {
-  return fetch(`${BASE_URL}${name}`).then(response => response.json(),
-  );
+export function fetchCountries(name) {
+    return fetch(`${API}${name}${filter}`).then(response => {
+        if(!response.ok) {
+            Notiflix.Notify.failure('"Oops, there is no country with that name"')
+            throw new Error(response.status)
+      };
+      return response.json();
+    })
+    
 };
-
-export default { getCountryByName };
